@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Inisialisasi Data Awal di Session (Simulasi Database Seeder agar langsung jalan tanpa setup)
 if (!isset($_SESSION['products'])) {
     $_SESSION['products'] = [
         1 => ['id' => 1, 'title' => 'KYT TT Course Matt Black', 'category' => 'Full Face', 'brand' => 'KYT', 'price' => 1450000, 'size' => 'L', 'condition' => 'Baru', 'stock' => 12, 'status' => 'available', 'description' => 'Helm Full Face KYT TT Course flat visor original SNI & DOT.', 'image' => 'https://placehold.co/400x400/2563eb/white?text=KYT+TT+Course'],
@@ -26,7 +25,6 @@ if (!isset($_SESSION['orders'])) {
 $page = $_GET['page'] ?? 'catalog';
 $action = $_GET['action'] ?? '';
 
-// ==================== PROSES ACTION PHP ====================
 
 // 1. Login
 if ($action === 'login' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -198,7 +196,6 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Header Navbar (Facebook Marketplace Style) -->
     <nav class="bg-white border-b border-gray-300 sticky top-0 z-30">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
             <a href="index.php?page=catalog" class="flex items-center gap-2 text-blue-600 font-bold text-xl">
@@ -239,7 +236,6 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
         </div>
     </nav>
 
-    <!-- Notifikasi Flash Session PHP -->
     <div class="max-w-7xl w-full mx-auto px-4 mt-4">
         <?php if (!empty($_SESSION['success'])): ?>
             <div class="p-3 mb-4 bg-green-100 border border-green-400 text-green-800 rounded text-sm">
@@ -253,11 +249,11 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
         <?php endif; ?>
     </div>
 
-    <!-- Konten Utama -->
+    //Konten Utama 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-4">
 
         <?php if ($page === 'login'): ?>
-            <!-- HALAMAN LOGIN -->
+           //HALAMAN LOGIN 
             <div class="max-w-md mx-auto bg-white p-6 rounded-lg border border-gray-300 mt-6">
                 <h1 class="text-xl font-bold mb-4 text-center">Login HelmetMarket</h1>
                 <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-xs space-y-1">
@@ -279,7 +275,7 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
             </div>
 
         <?php elseif ($page === 'cart'): ?>
-            <!-- HALAMAN KERANJANG BELANJA -->
+            // HALAMAN KERANJANG BELANJA 
             <div class="bg-white p-6 rounded-lg border border-gray-300">
                 <h1 class="text-xl font-bold mb-4 border-b pb-2">Keranjang Belanja (Session Cart)</h1>
                 <?php if (empty($_SESSION['cart'])): ?>
@@ -336,7 +332,7 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
             </div>
 
         <?php elseif ($page === 'admin'): ?>
-            <!-- HALAMAN DASHBOARD ADMIN CRUD -->
+            // HALAMAN DASHBOARD ADMIN CRUD 
             <div class="bg-white p-5 rounded-lg border border-gray-300">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b">
                     <div>
@@ -389,7 +385,7 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
         <?php elseif ($page === 'admin_form'):
             $editItem = isset($_GET['id']) && isset($_SESSION['products'][(int)$_GET['id']]) ? $_SESSION['products'][(int)$_GET['id']] : null;
         ?>
-            <!-- FORM TAMBAH / EDIT PRODUK -->
+            // FORM TAMBAH / EDIT PRODUK
             <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg border border-gray-300">
                 <h1 class="text-lg font-bold mb-4 border-b pb-2"><?= $editItem ? 'Edit Produk Helm' : 'Tambah Produk Helm Baru' ?></h1>
                 <form action="index.php?action=admin_save" method="POST" enctype="multipart/form-data" class="space-y-3 text-sm">
@@ -459,7 +455,7 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
             </div>
 
         <?php elseif ($page === 'report'): ?>
-            <!-- HALAMAN LAPORAN PDF -->
+            //HALAMAN LAPORAN PDF 
             <div class="bg-white p-8 rounded border border-gray-300">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">LAPORAN STOK & PENJUALAN - HELMETMARKET</h2>
@@ -493,7 +489,7 @@ foreach ($_SESSION['cart'] as $c) $cartCount += $c['quantity'];
             <script>window.onload = () => window.print();</script>
 
         <?php else: ?>
-            <!-- HALAMAN KATALOG UTAMA (2 KOLOM) -->
+            // HALAMAN KATALOG UTAMA (2 KOLOM) 
             <div class="flex flex-col md:flex-row gap-6">
                 <div class="w-full md:w-64 bg-white p-4 rounded-lg border border-gray-300 h-fit">
                     <h2 class="font-bold text-base mb-3 border-b pb-2">Filter Produk</h2>
