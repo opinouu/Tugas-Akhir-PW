@@ -11,21 +11,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    // READ: Menampilkan daftar produk di halaman admin
+    // READ
     public function index()
     {
         $products = Product::with('category')->latest()->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
-    // CREATE: Menampilkan form tambah produk
+    // CREATE
     public function create()
     {
         $categories = Category::all();
         return view('admin.products.create', compact('categories'));
     }
 
-    // STORE: Menyimpan data produk baru ke database
+    // STORE
     public function store(Request $request)
     {
         $request->validate([
@@ -61,7 +61,7 @@ class AdminController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    // EDIT: Menampilkan form edit produk
+    // EDIT
     public function edit($id)
     {
         $product = Product::findOrFail($id);
@@ -69,7 +69,7 @@ class AdminController extends Controller
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    // UPDATE: Mengupdate data produk
+    // UPDATE
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -87,7 +87,7 @@ class AdminController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Jika upload gambar baru, hapus gambar lama
+        // upload gambar baru, hapus gambar lama
         if ($request->hasFile('image')) {
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
@@ -111,7 +111,7 @@ class AdminController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diupdate!');
     }
 
-    // DELETE: Menghapus produk dan file gambarnya
+    // DELETE
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
@@ -125,7 +125,7 @@ class AdminController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus!');
     }
 
-    // EXPORT PDF: Cetak laporan stok produk & penjualan
+    // Cetak laporan 
     public function exportPdf()
     {
         $products = Product::with('category')->get();
