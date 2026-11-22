@@ -18,4 +18,4 @@ session_start();
 $_SESSION['flash_info'] = "Anda telah berhasil keluar (logout).";
 
 header("Location: index.php");
-exit;
+exit; 
