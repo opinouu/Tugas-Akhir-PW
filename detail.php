@@ -9,7 +9,7 @@ $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) {
     header("Location: index.php");
     exit;
-}
+} 
 
 // Ambil data helm dan data penjualnya
 $stmt = $db->prepare("SELECT h.*, u.nama AS nama_penjual, u.email AS email_penjual, u.no_wa, u.kota AS kota_penjual, u.created_at AS member_since 
@@ -264,3 +264,4 @@ $urlWA = "https://wa.me/" . $helm['no_wa'] . "?text=" . urlencode($pesanWA);
     </script>
 </body>
 </html>
+ 
