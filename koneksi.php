@@ -1,7 +1,4 @@
 <?php
-// Mengatur koneksi database MySQL (PDO)
-
-// Konfigurasi folder penyimpanan session agar kompatibel di semua sistem
 if (!is_writable(session_save_path())) {
     @session_save_path(sys_get_temp_dir());
 }
@@ -57,12 +54,22 @@ try {
         CONSTRAINT fk_helm_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-    // 5. Cek apakah user demo sudah ada, jika kosong buat akun default Govin Faris
-    $cekUser = $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
-    if ($cekUser == 0) {
+    // 5. Cek apakah user demo Govin Faris sudah ada di database
+    $stmtCek = $db->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmtCek->execute(['govinfaris@gmail.com']);
+    $userDemo = $stmtCek->fetch();
+
+    if (!$userDemo) {
         $stmtUser = $db->prepare("INSERT INTO users (nama, email, password, no_wa, kota) VALUES (?, ?, ?, ?, ?)");
         $defaultPassword = password_hash('password123', PASSWORD_DEFAULT);
         $stmtUser->execute(['Govin Faris', 'govinfaris@gmail.com', $defaultPassword, '6281234567890', 'Yogyakarta']);
+    } else {
+        // Jika akun sudah ada tapi hash passwordnya tidak cocok (misal dari hasil import SQL awal), perbarui otomatis
+        if (!password_verify('password123', $userDemo['password'])) {
+            $defaultPassword = password_hash('password123', PASSWORD_DEFAULT);
+            $stmtUpdatePass = $db->prepare("UPDATE users SET password = ? WHERE id = ?");
+            $stmtUpdatePass->execute([$defaultPassword, $userDemo['id']]);
+        }
     }
 
 } catch (PDOException $e) {
@@ -97,4 +104,3 @@ function getUserLogin($db) {
 function input($data) {
     return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
 }
-    
