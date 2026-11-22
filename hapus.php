@@ -14,13 +14,13 @@ if (!cekLogin()) {
 $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) {
     header("Location: index.php");
-    exit;
+    exit; 
 }
 
 // 2. Ambil data helm untuk cek kepemilikan & path foto
 $stmt = $db->prepare("SELECT * FROM helm WHERE id = ?");
 $stmt->execute([$id]);
-$helm = $stmt->fetch();
+$helm = $stmt->fetch(); 
 
 if (!$helm) {
     $_SESSION['flash_info'] = "Data helm tidak ditemukan.";
@@ -31,12 +31,12 @@ if (!$helm) {
 // 3. Cek Otorisasi (Hanya pemilik yang berhak menghapus)
 if ($helm['user_id'] != $_SESSION['user_id']) {
     die("Akses ditolak! Anda bukan pemilik iklan helm ini. <a href='index.php'>Kembali</a>");
-}
+} 
 
 // 4. Jika ada file foto lokal di folder uploads/, hapus file fisiknya
 if (!empty($helm['foto']) && strpos($helm['foto'], 'uploads/') === 0) {
     $filePath = __DIR__ . '/' . $helm['foto'];
-    if (file_exists($filePath)) {
+    if (file_exists($filePath)) { 
         unlink($filePath);
     }
 }
