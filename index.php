@@ -317,7 +317,7 @@ unset($_SESSION['flash_sukses'], $_SESSION['flash_info']);
                         ?>
                         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col group relative">
                             
-                            <!-- Foto Produk -->
+                            <!--  Foto Produk  -->
                             <a href="detail.php?id=<?= $item['id'] ?>" class="block relative aspect-square bg-gray-100 overflow-hidden">
                                 <img src="<?= htmlspecialchars($item['foto']) ?>" 
                                      alt="<?= htmlspecialchars($item['judul']) ?>" 
